@@ -89,6 +89,22 @@ function(vcpkg_build_msbuild)
         set(_csc_TARGET Rebuild)
     endif()
 
+    #initialize subsystem with "Console" if subsystem version defined
+    if(NOT DEFINED VCPKG_LINKER_SUBSYSTEM AND DEFINED VCPKG_LINKER_SUBSYSTEM_MINIMUM_VERSION)
+        set(VCPKG_LINKER_SUBSYSTEM "Console")
+    endif()
+
+    #Format force import file
+    set(_csc_FORCEIMPORT_FILE "${CURRENT_BUILDTREES_DIR}/vcpkg.props")
+    file(WRITE "${_csc_FORCEIMPORT_FILE}" "<?xml version='1.0' encoding='utf-8'?><Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003'><ItemDefinitionGroup><Link>")
+    if(DEFINED VCPKG_LINKER_SUBSYSTEM)
+        file(APPEND "${_csc_FORCEIMPORT_FILE}" "<SubSystem>${VCPKG_LINKER_SUBSYSTEM}</SubSystem>")
+    endif()
+    if(DEFINED VCPKG_LINKER_SUBSYSTEM_MINIMUM_VERSION)
+        file(APPEND "${_csc_FORCEIMPORT_FILE}" "<MinimumRequiredVersion>${VCPKG_LINKER_SUBSYSTEM_MINIMUM_VERSION}</MinimumRequiredVersion>")
+    endif()
+    file(APPEND "${_csc_FORCEIMPORT_FILE}" "</Link></ItemDefinitionGroup></Project>")
+    
     list(APPEND _csc_OPTIONS
         /t:${_csc_TARGET}
         /p:Platform=${_csc_PLATFORM}
@@ -96,6 +112,7 @@ function(vcpkg_build_msbuild)
         /p:VCPkgLocalAppDataDisabled=true
         /p:UseIntelMKL=No
         /p:WindowsTargetPlatformVersion=${_csc_TARGET_PLATFORM_VERSION}
+        /p:ForceImportBeforeCppTargets=${_csc_FORCEIMPORT_FILE}
         /m
     )
 

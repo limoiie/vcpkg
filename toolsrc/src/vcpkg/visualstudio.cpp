@@ -16,6 +16,9 @@ namespace vcpkg::VisualStudio
     static constexpr CStringView V_141 = "v141";
     static constexpr CStringView V_142 = "v142";
 
+    static constexpr CStringView V_120_xp = "v120_xp";
+    static constexpr CStringView V_141_xp = "v141_xp";
+
     struct VisualStudioInstance
     {
         enum class ReleaseType
@@ -279,6 +282,19 @@ namespace vcpkg::VisualStudio
 
                         found_toolsets.push_back(std::move(toolset));
 
+                        auto const v141_xp_path = vs_instance.root_path / "MSBuild" / "Microsoft" / "VC" /
+                            "v150" / "Platforms" / "Win32" / "PlatformToolsets" / "v141_xp";
+
+                        if (fs.exists(v141_xp_path)) 
+                        {
+                            found_toolsets.push_back({vs_instance.root_path,
+                                                      dumpbin_path,
+                                                      vcvarsall_bat,
+                                                      {vcvars_option},
+                                                      V_141_xp,
+                                                      supported_architectures});
+                        }
+
                         if (v140_is_available)
                         {
                             found_toolsets.push_back({vs_instance.root_path,
@@ -339,6 +355,22 @@ namespace vcpkg::VisualStudio
                         }
 
                         found_toolsets.push_back(toolset);
+
+                        const auto root_parent = vs_instance.root_path.filename() == "." ? 
+                            vs_instance.root_path.parent_path().parent_path() :
+                            vs_instance.root_path.parent_path();
+                        const auto v120_xp_path = root_parent / "MSBuild" /
+                            "Microsoft.Cpp" / "v4.0" / "V120" / "Platforms" / "Win32" / 
+                            "PlatformToolsets" / "v120_xp";
+
+                        if (fs.exists(v120_xp_path)) {
+                            found_toolsets.push_back({vs_instance.root_path,
+                                                      vs_dumpbin_exe,
+                                                      vcvarsall_bat,
+                                                      {},
+                                                      V_120_xp,
+                                                      supported_architectures});
+                        }
                     }
                 }
             }

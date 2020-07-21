@@ -1088,6 +1088,8 @@ namespace vcpkg::Build
                         Checks::exit_with_message(
                             VCPKG_LINE_INFO, "Unknown boolean setting for VCPKG_LOAD_VCVARS_ENV: %s", variable_value);
                     break;
+                case VcpkgTripletVar::LINKER_SUBSYSTEM: linker_subsystem = variable_value; break;
+                case VcpkgTripletVar::LINKER_MINIMUM_SUBSYSTEM: linker_subsystem_minver = variable_value; break;
             }
         }
 

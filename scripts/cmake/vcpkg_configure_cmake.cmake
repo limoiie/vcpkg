@@ -93,6 +93,9 @@ function(vcpkg_configure_cmake)
     elseif(_TARGETTING_UWP)
         # Ninja and MSBuild have many differences when targetting UWP, so use MSBuild to maximize existing compatibility
         set(NINJA_CAN_BE_USED OFF)
+    elseif(NOT VCPKG_PLATFORM_TOOLSET MATCHES "^v[0-9][0-9][0-9]?(_xp)?$")
+        # Custom toolsets are supported only for MSBuild generator
+        set(NINJA_CAN_BE_USED OFF)
     endif()
 
     if(_csc_GENERATOR)
@@ -155,6 +158,11 @@ function(vcpkg_configure_cmake)
         list(APPEND _csc_OPTIONS "-DCMAKE_MAKE_PROGRAM=${NINJA}")
     endif()
 
+    # If we do not use Ninja, set toolset
+    if(NOT GENERATOR STREQUAL "Ninja")
+        set(TOOLSET "-T${VCPKG_PLATFORM_TOOLSET}")
+    endif()
+    
     file(REMOVE_RECURSE ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg)
 
     if(DEFINED VCPKG_CMAKE_SYSTEM_NAME)

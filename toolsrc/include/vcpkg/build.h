@@ -166,6 +166,8 @@ namespace vcpkg::Build
         Optional<std::string> public_abi_override;
         Optional<const SourceControlFileLocation&> port;
         std::vector<std::string> passthrough_env_vars;
+        std::string linker_subsystem;
+        std::string linker_subsystem_minver;
     };
 
     std::string make_build_env_cmd(const PreBuildInfo& pre_build_info, const Toolset& toolset);
@@ -182,6 +184,8 @@ namespace vcpkg::Build
         ENV_PASSTHROUGH,
         PUBLIC_ABI_OVERRIDE,
         LOAD_VCVARS_ENV,
+        LINKER_SUBSYSTEM,
+        LINKER_MINIMUM_SUBSYSTEM,
     };
 
     const std::unordered_map<std::string, VcpkgTripletVar> VCPKG_OPTIONS = {
@@ -195,6 +199,8 @@ namespace vcpkg::Build
         {"VCPKG_ENV_PASSTHROUGH", VcpkgTripletVar::ENV_PASSTHROUGH},
         {"VCPKG_PUBLIC_ABI_OVERRIDE", VcpkgTripletVar::PUBLIC_ABI_OVERRIDE},
         {"VCPKG_LOAD_VCVARS_ENV", VcpkgTripletVar::LOAD_VCVARS_ENV},
+        {"VCPKG_LINKER_SUBSYSTEM", VcpkgTripletVar::LINKER_SUBSYSTEM},
+        {"VCPKG_LINKER_SUBSYSTEM_MINIMUM_VERSION", VcpkgTripletVar::LINKER_MINIMUM_SUBSYSTEM},
     };
 
     struct ExtendedBuildResult
