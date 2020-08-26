@@ -3,8 +3,8 @@ include(vcpkg_common_functions)
 vcpkg_from_bitbucket(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO iie4dev/cpp-common
-    REF v0.0.6.8
-    SHA512 d92d8c2171064d559f286f9f5d137f5624385f3982464cec2319eea11d0ebc4fd59b1c2357ca4fc8502c0cbf1a316f66abcd68722b8f658e4af0d20706eda23e
+    REF v0.0.7
+    SHA512 ba6646db578de9933942eb2ab5eeb6e7b29e92e840c6fec0d3d1f819c4f5af332c97a593344997cae1a1c5bf925fbd8dbcc987534d9c28848d3a7cb1423888fa
     HEAD_REF master
 )
 
@@ -12,7 +12,7 @@ vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     OPTIONS
         -DENABLE_TEST=OFF
-        -DUNICODE=ON
+        -DUNICODE=OFF
 )
 vcpkg_install_cmake()
 vcpkg_fixup_cmake_targets()
@@ -21,4 +21,4 @@ vcpkg_fixup_cmake_targets()
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
 
-file(INSTALL ${SOURCE_PATH}/COPYING DESTINATION ${CURRENT_PACKAGES_DIR}/share/cpp-common RENAME copyright)
+file(INSTALL ${SOURCE_PATH}/COPYING DESTINATION ${CURRENT_PACKAGES_DIR}/share/cpp-common-multichars RENAME copyright)
