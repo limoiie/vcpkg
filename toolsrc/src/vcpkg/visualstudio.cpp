@@ -356,20 +356,27 @@ namespace vcpkg::VisualStudio
 
                         found_toolsets.push_back(toolset);
 
-                        const auto root_parent = vs_instance.root_path.filename() == "." ? 
-                            vs_instance.root_path.parent_path().parent_path() :
-                            vs_instance.root_path.parent_path();
-                        const auto v120_xp_path = root_parent / "MSBuild" /
-                            "Microsoft.Cpp" / "v4.0" / "V120" / "Platforms" / "Win32" / 
-                            "PlatformToolsets" / "v120_xp";
+                        const auto root_parent_candidates = std::vector< fs::path > {
+                            fs::path("C:\\Program Files (x86)"),  // default install path
+                            vs_instance.root_path.filename() == "." ? 
+                                vs_instance.root_path.parent_path().parent_path() :
+                                vs_instance.root_path.parent_path()
+                        };
 
-                        if (fs.exists(v120_xp_path)) {
-                            found_toolsets.push_back({vs_instance.root_path,
-                                                      vs_dumpbin_exe,
-                                                      vcvarsall_bat,
-                                                      {},
-                                                      V_120_xp,
-                                                      supported_architectures});
+                        for (const auto & root_parent : root_parent_candidates) {
+                            const auto v120_xp_path = root_parent / "MSBuild" /
+                                "Microsoft.Cpp" / "v4.0" / "V120" / "Platforms" / "Win32" / 
+                                "PlatformToolsets" / "v120_xp";
+
+                            if (fs.exists(v120_xp_path)) {
+                                found_toolsets.push_back({vs_instance.root_path,
+                                                        vs_dumpbin_exe,
+                                                        vcvarsall_bat,
+                                                        {},
+                                                        V_120_xp,
+                                                        supported_architectures});
+                                break;
+                            }
                         }
                     }
                 }
