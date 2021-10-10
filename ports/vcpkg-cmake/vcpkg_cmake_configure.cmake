@@ -147,6 +147,14 @@ function(vcpkg_cmake_configure)
         endif()
     endif()
 
+    # HACK: specify the compiler for this compilation
+    if(DEFINED VCPKG_BIN2STH_C_COMPILER)
+        list(APPEND arg_OPTIONS "-DCMAKE_C_COMPILER=${VCPKG_BIN2STH_C_COMPILER}")
+    endif()
+    if(DEFINED VCPKG_BIN2STH_CXX_COMPILER)
+        list(APPEND arg_OPTIONS "-DCMAKE_CXX_COMPILER=${VCPKG_BIN2STH_CXX_COMPILER}")
+    endif()
+
     set(ninja_can_be_used ON) # Ninja as generator
     set(ninja_host ON) # Ninja as parallel configurator
 
