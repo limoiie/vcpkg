@@ -320,3 +320,7 @@ prefab/
 pythonenv3.8/
 .venv/
 
+###################
+# Bin2Sth
+###################
+bin2sth
