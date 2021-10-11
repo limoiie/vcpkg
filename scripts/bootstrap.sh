@@ -279,15 +279,15 @@ else
 fi
 
 # Do the build
-vcpkgToolReleaseTag="2021-09-10"
-vcpkgToolReleaseSha="0bea4c7bdd91933d44a0214e2202eb5ef988826d32ae7a00a8868e510710e7de0b336b1cc6aa1ea20af2f6e24d92f2ab665046089bb4ec43bc2add94a901d5fc"
+vcpkgToolReleaseTag="v0.1.0-alpha"
+vcpkgToolReleaseSha="6eedf0003c0743ec75e60eb8332c198cc15c4a86847c7f3de8f36ba224419dff6af9243a6f8c544de8572ce7be8e9f7aa78c41d0926c3517c5390dc657e3bcb4"
 vcpkgToolReleaseTarball="$vcpkgToolReleaseTag.tar.gz"
-vcpkgToolUrl="https://github.com/microsoft/vcpkg-tool/archive/$vcpkgToolReleaseTarball"
+vcpkgToolUrl="https://github.com/limoiie/vcpkg-tool/archive/$vcpkgToolReleaseTarball"
 baseBuildDir="$vcpkgRootDir/buildtrees/_vcpkg"
 buildDir="$baseBuildDir/build"
 tarballPath="$downloadsDir/$vcpkgToolReleaseTarball"
 srcBaseDir="$baseBuildDir/src"
-srcDir="$srcBaseDir/vcpkg-tool-$vcpkgToolReleaseTag"
+srcDir="$srcBaseDir/vcpkg-tool-${vcpkgToolReleaseTag#v}"
 
 if [ -e "$tarballPath" ]; then
     vcpkgCheckEqualFileHash "$vcpkgToolUrl" "$tarballPath" "$vcpkgToolReleaseSha"
