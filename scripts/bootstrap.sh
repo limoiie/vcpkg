@@ -279,8 +279,8 @@ else
 fi
 
 # Do the build
-vcpkgToolReleaseTag="v0.1.0-alpha"
-vcpkgToolReleaseSha="6eedf0003c0743ec75e60eb8332c198cc15c4a86847c7f3de8f36ba224419dff6af9243a6f8c544de8572ce7be8e9f7aa78c41d0926c3517c5390dc657e3bcb4"
+vcpkgToolReleaseTag="v0.1.1-alpha"
+vcpkgToolReleaseSha="8378c432124dd90464f6bb5a5764b153e1597cf4d4996b4f1245c2faab719ced69c1bb04f69231a5ec0c6904fffd1f6b157145d183adff74a8a6225424825b36"
 vcpkgToolReleaseTarball="$vcpkgToolReleaseTag.tar.gz"
 vcpkgToolUrl="https://github.com/limoiie/vcpkg-tool/archive/$vcpkgToolReleaseTarball"
 baseBuildDir="$vcpkgRootDir/buildtrees/_vcpkg"
