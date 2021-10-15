@@ -434,6 +434,14 @@ function(vcpkg_configure_make)
             # Currently needed for arm because objdump yields: "unrecognised machine type (0x1c4) in Import Library Format archive"
             list(APPEND arg_OPTIONS lt_cv_deplibs_check_method=pass_all)
         endif()
+    else()
+        macro(_vcpkg_append_to_configure_environment inoutstring var defaultval)
+            # Allows to overwrite settings in custom triplets via the environment
+            string(APPEND ${inoutstring} " ${var}='${defaultval}'")
+        endmacro()
+
+        _vcpkg_append_to_configure_environment(CONFIGURE_ENV CC "${VCPKG_DETECTED_CMAKE_C_COMPILER}")
+        _vcpkg_append_to_configure_environment(CONFIGURE_ENV CXX "${VCPKG_DETECTED_CMAKE_CXX_COMPILER}")
     endif()
 
     # Some PATH handling for dealing with spaces....some tools will still fail with that!
