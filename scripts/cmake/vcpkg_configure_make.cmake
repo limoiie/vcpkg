@@ -440,8 +440,8 @@ function(vcpkg_configure_make)
             string(APPEND ${inoutstring} " ${var}='${defaultval}'")
         endmacro()
 
-        _vcpkg_append_to_configure_environment(CONFIGURE_ENV CC "${VCPKG_DETECTED_CMAKE_C_COMPILER}")
-        _vcpkg_append_to_configure_environment(CONFIGURE_ENV CXX "${VCPKG_DETECTED_CMAKE_CXX_COMPILER}")
+        _vcpkg_append_to_configure_environment(configure_env CC "${VCPKG_DETECTED_CMAKE_C_COMPILER}")
+        _vcpkg_append_to_configure_environment(configure_env CXX "${VCPKG_DETECTED_CMAKE_CXX_COMPILER}")
     endif()
 
     # Some PATH handling for dealing with spaces....some tools will still fail with that!
