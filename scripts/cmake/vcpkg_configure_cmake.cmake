@@ -128,11 +128,14 @@ function(vcpkg_configure_cmake)
     endif()
 
     # HACK: specify the compiler for this compilation
-    if(DEFINED VCPKG_BIN2STH_C_COMPILER)
-        list(APPEND arg_OPTIONS "-DCMAKE_C_COMPILER=${VCPKG_BIN2STH_C_COMPILER}")
-    endif()
-    if(DEFINED VCPKG_BIN2STH_CXX_COMPILER)
-        list(APPEND arg_OPTIONS "-DCMAKE_CXX_COMPILER=${VCPKG_BIN2STH_CXX_COMPILER}")
+    if(DEFINED VCPKG_BIN2STH_COMPILE_TRIPLET)
+        list(APPEND arg_OPTIONS "-DVCPKG_BIN2STH_COMPILE_TRIPLET=${VCPKG_BIN2STH_COMPILE_TRIPLET}")
+        if(DEFINED VCPKG_BIN2STH_C_COMPILER)
+            list(APPEND arg_OPTIONS "-DCMAKE_C_COMPILER=${VCPKG_BIN2STH_C_COMPILER}")
+        endif()
+        if(DEFINED VCPKG_BIN2STH_CXX_COMPILER)
+            list(APPEND arg_OPTIONS "-DCMAKE_CXX_COMPILER=${VCPKG_BIN2STH_CXX_COMPILER}")
+        endif()
     endif()
 
     set(NINJA_CAN_BE_USED ON) # Ninja as generator
