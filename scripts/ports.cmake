@@ -87,24 +87,23 @@ vcpkg_minimum_required(VERSION 2021-08-03)
 file(TO_CMAKE_PATH "${BUILDTREES_DIR}" BUILDTREES_DIR)
 file(TO_CMAKE_PATH "${PACKAGES_DIR}" PACKAGES_DIR)
 
-set(Z_DIR_SUFFIX_BY_COMPILATION "${TARGET_TRIPLET}")
 if(DEFINED VCPKG_BIN2STH_COMPILE_TRIPLET)
-    set(Z_DIR_SUFFIX_BY_COMPILATION "${Z_DIR_SUFFIX_BY_COMPILATION}_${VCPKG_BIN2STH_COMPILE_TRIPLET}")
-    message(STATUS "Enable bin2sth mode with compilation config: ${Z_DIR_SUFFIX_BY_COMPILATION}")
+    set(TARGET_TRIPLET "${TARGET_TRIPLET}_${VCPKG_BIN2STH_COMPILE_TRIPLET}")
+    message(STATUS "Enable bin2sth mode with compilation config: ${TARGET_TRIPLET}.")
 elseif(DEFINED VCPKG_BIN2STH_C_COMPILER OR DEFINED VCPKG_BIN2STH_CXX_COMPILER)
-    message(WARNING "Disable bin2sth mode.")
     set(VCPKG_BIN2STH_C_COMPILER)
     set(VCPKG_BIN2STH_CXX_COMPILER)
+    message(WARNING "Disable bin2sth mode.")
 endif()
 
-set(CURRENT_INSTALLED_DIR "${_VCPKG_INSTALLED_DIR}/${Z_DIR_SUFFIX_BY_COMPILATION}" CACHE PATH "Location to install final packages")
+set(CURRENT_INSTALLED_DIR "${_VCPKG_INSTALLED_DIR}/${TARGET_TRIPLET}" CACHE PATH "Location to install final packages")
 
 if(PORT)
     # NOTE: it's difficult to refactor files/folder names in buildtree with respect to compilation because many portfiles hardcode
     # the path in their build/install scripts.
     set(CURRENT_BUILDTREES_DIR "${BUILDTREES_DIR}/${PORT}")
     # NOTE: the CURRENT_PACKAGES_DIR should synchronize with vcpkg-tools/src/vcpkg/PackageSpec::dir()
-    set(CURRENT_PACKAGES_DIR "${PACKAGES_DIR}/${PORT}_${Z_DIR_SUFFIX_BY_COMPILATION}")
+    set(CURRENT_PACKAGES_DIR "${PACKAGES_DIR}/${PORT}_${TARGET_TRIPLET}")
 endif()
 
 if(CMD MATCHES "^BUILD$")
