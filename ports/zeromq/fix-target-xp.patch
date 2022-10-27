@@ -1,0 +1,11 @@
+diff --git a/builds/cmake/platform.hpp.in b/builds/cmake/platform.hpp.in
+index d67eca6..08b8ad3 100644
+--- a/builds/cmake/platform.hpp.in
++++ b/builds/cmake/platform.hpp.in
+@@ -122,5 +122,6 @@
+ 
+ #cmakedefine ZMQ_HAVE_WINDOWS
+ #cmakedefine ZMQ_HAVE_WINDOWS_UWP
++#cmakedefine ZMQ_HAVE_WINDOWS_TARGET_XP
+ 
+ #endif

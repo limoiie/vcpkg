@@ -6,7 +6,15 @@ vcpkg_from_github(
     REF 8d34332ff2301607df0fc9971a2fbe903c0feb7c
     SHA512 8b3a9b6c4e5236353672b6deb64c94ac79deb116962405f01fe36e2fd8ddc48ec65d88ffc06746ce2e13c93eaeb04e4ba73de8f9d6f2a57a73111765d5ba8ad7
     HEAD_REF master
+    PATCHES
+        fix-target-xp.patch
 )
+
+if(VCPKG_PLATFORM_TOOLSET MATCHES "xp$")
+    set(ZMQ_HAVE_WINDOWS_TARGET_XP ON)
+else()
+    set(ZMQ_HAVE_WINDOWS_TARGET_XP OFF)
+endif()
 
 string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "static" BUILD_STATIC)
 string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "dynamic" BUILD_SHARED)
@@ -24,6 +32,7 @@ vcpkg_configure_cmake(
     PREFER_NINJA
     OPTIONS
         -DZMQ_BUILD_TESTS=OFF
+        -DZMQ_HAVE_WINDOWS_TARGET_XP=${ZMQ_HAVE_WINDOWS_TARGET_XP}
         -DPOLLER=select
         -DBUILD_STATIC=${BUILD_STATIC}
         -DBUILD_SHARED=${BUILD_SHARED}
