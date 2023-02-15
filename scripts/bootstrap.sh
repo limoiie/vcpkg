@@ -88,8 +88,10 @@ vcpkgCheckRepoTool zip
 vcpkgCheckRepoTool unzip
 vcpkgCheckRepoTool tar
 
-UNAME="$(uname)"
-ARCH="$(uname -m)"
+#UNAME="$(uname)"
+#ARCH="$(uname -m)"
+UNAME=""
+ARCH=""
 
 if [ -e /etc/alpine-release ]; then
     vcpkgUseSystem="ON"
@@ -124,10 +126,10 @@ fi
 
 # Choose the vcpkg binary to download
 vcpkgDownloadTool="ON"
-vcpkgToolReleaseTag="2022-02-11"
+vcpkgToolReleaseTag="2022-02-11-bin2sth.patch1"
 if [ "$UNAME" = "Darwin" ]; then
     echo "Downloading vcpkg-macos..."
-    vcpkgToolReleaseSha="a51dbdc76441d88af134d5d1475d86298f07b6ae43883788117218e3ceba61abecc07e6ed0bdb9bec4c26bab7376b60fa3cd00988fe306655d7e249c6de8394a"
+    vcpkgToolReleaseSha="eb6c205dba80800dd5f3b74d085d7117e49822a19dc9a6f6074b4d84905304b0aac6ae3c6de91591bde4c77f0f1a2b96bf8e2e9b25e9103a217bf1ec8a3db249"
     vcpkgToolName="vcpkg-macos"
 elif [ "$vcpkgUseMuslC" = "ON" ]; then
     echo "Downloading vcpkg-muslc..."
@@ -135,12 +137,12 @@ elif [ "$vcpkgUseMuslC" = "ON" ]; then
     vcpkgToolName="vcpkg-muslc"
 elif [ "$ARCH" = "x86_64" ]; then
     echo "Downloading vcpkg-glibc..."
-    vcpkgToolReleaseSha="39aee3624d38ead50ad0b9e5eed81845fb087007a944a53678afb86d6ccd3bf2f974b61b9d82e2fc54dc2feccc790b468f23f1b0769b47349168472db2b0e3e3"
+    vcpkgToolReleaseSha="956861a861c3d7a9bcaf1eb81631d9c4221f434543aa3c130729ec429abda8747fd921800cad088bff9a6ad3022ef8aefc09fb2bd49034beff407eb921963ca4"
     vcpkgToolName="vcpkg-glibc"
 else
     echo "Unable to determine a binary release of vcpkg; attempting to build from source."
     vcpkgDownloadTool="OFF"
-    vcpkgToolReleaseSha="c7c31852b0657716aaee1ad322cc79954d9b64068594420dd9d8cdea8ed7717e099ba6b1c771a43fdb9584be639da4704e920b15c4410a17998ab2d1e10d73d6"
+    vcpkgToolReleaseSha="c9263094577cae9480b13c76f23ef3f21d5214bf03739d274a908a0299afa08b76a00aae93c4a238c6ad853d4c6c531626315104a495078b93caa98bcdb5dd25"
 fi
 
 # Do the download or build.
@@ -190,7 +192,7 @@ vcpkgExtractTar()
 }
 
 if [ "$vcpkgDownloadTool" = "ON" ]; then
-    vcpkgDownloadFile "https://github.com/microsoft/vcpkg-tool/releases/download/$vcpkgToolReleaseTag/$vcpkgToolName" "$vcpkgRootDir/vcpkg" $vcpkgToolReleaseSha
+    vcpkgDownloadFile "https://github.com/limoiie/vcpkg-tool/releases/download/$vcpkgToolReleaseTag/$vcpkgToolName" "$vcpkgRootDir/vcpkg" $vcpkgToolReleaseSha
 else
     if [ "x$CXX" = "x" ]; then
         if which g++-11 >/dev/null 2>&1; then
@@ -212,7 +214,7 @@ else
     fi
 
     vcpkgToolReleaseTarball="$vcpkgToolReleaseTag.tar.gz"
-    vcpkgToolUrl="https://github.com/microsoft/vcpkg-tool/archive/$vcpkgToolReleaseTarball"
+    vcpkgToolUrl="https://github.com/limoiie/vcpkg-tool/archive/$vcpkgToolReleaseTarball"
     baseBuildDir="$vcpkgRootDir/buildtrees/_vcpkg"
     buildDir="$baseBuildDir/build"
     tarballPath="$downloadsDir/$vcpkgToolReleaseTarball"
